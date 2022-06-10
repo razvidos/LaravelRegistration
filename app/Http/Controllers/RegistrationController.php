@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegistrationRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    public function store(Request $request)
+    public function store(RegistrationRequest $request)
     {
+        $validated = $request->validated();
+
         $user = new User();
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;

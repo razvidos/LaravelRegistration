@@ -5,6 +5,7 @@
 
 @section('main-content')
     <div class="alert alert-success" style="display:none"></div>
+    <div class="alert-error alert-danger" style="display:none"></div>
     <form id="registration" action="">
         {{--Name LastName--}}
         <div class="form-row">
@@ -71,7 +72,17 @@
                         const alert_block = jQuery('.alert');
                         alert_block.show();
                         alert_block.html(result.success);
-                    }
+                    },
+                    error: function (result) {
+                        const alert_block = jQuery('.alert-error');
+                        alert_block.empty();
+                        alert_block.show();
+                        alert_block.append("<ul>");
+                        $.each(result.responseJSON.errors, function (key, value) {
+                            alert_block.append('<li>' + value + '</li');
+                        });
+                        alert_block.append("</ul>");
+                    },
                 });
             });
         });
