@@ -19,6 +19,6 @@ class RegistrationController extends Controller
 
         $user->save();
         return response()
-            ->json(['success' => 'Data is successfully added']);
+            ->json(['success' => 'User is successfully added']);
     }
 }

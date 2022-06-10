@@ -3,9 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Validator;
 
 class RegistrationRequest extends FormRequest
 {
+//    protected $stopOnFirstFailure = true;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -38,5 +42,20 @@ class RegistrationRequest extends FormRequest
             'password1' => 'Password',
             'password2' => 'Password again',
         ];
+    }
+
+    public function withValidator(Validator $validator)
+    {
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+            if (array_key_exists('email', $errors)) {
+                if (in_array('The email has already been taken.', $errors["email"])) {
+                    $message = "Not unique email";
+                    $data = $validator->getData();
+                    $context = ['email' => $data['email']];
+                    Log::channel('registration')->error($message, $context);
+                }
+            }
+        }
     }
 }

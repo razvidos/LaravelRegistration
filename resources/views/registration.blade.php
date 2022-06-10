@@ -6,7 +6,7 @@
 @section('main-content')
     <div class="alert alert-success" style="display:none"></div>
     <div class="alert-error alert-danger" style="display:none"></div>
-    <form id="registration" action="">
+    <form id="registration-form">
         {{--Name LastName--}}
         <div class="form-row">
             <div class="col">
@@ -58,6 +58,8 @@
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
                 });
+                jQuery('.alert').hide();
+                jQuery('.alert-error').hide();
                 jQuery.ajax({
                     url: "{{ url('/registration') }}",
                     method: 'post',
@@ -69,7 +71,9 @@
                         password2: jQuery('#password2').val(),
                     },
                     success: function (result) {
+                        const registration_form = jQuery('#registration-form');
                         const alert_block = jQuery('.alert');
+                        registration_form.hide();
                         alert_block.show();
                         alert_block.html(result.success);
                     },
@@ -77,7 +81,7 @@
                         const alert_block = jQuery('.alert-error');
                         alert_block.empty();
                         alert_block.show();
-                        alert_block.append("<ul>");
+                        alert_block.html("<ul>");
                         $.each(result.responseJSON.errors, function (key, value) {
                             alert_block.append('<li>' + value + '</li');
                         });
