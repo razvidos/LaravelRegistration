@@ -48,7 +48,7 @@
     </form>
 @endsection
 
-@section('end_scripts')
+@push('end_scripts')
     <script>
         jQuery(document).ready(function () {
             jQuery('#ajaxSubmit').click(function (e) {
@@ -91,4 +91,4 @@
             });
         });
     </script>
-@endsection
+@endpush
